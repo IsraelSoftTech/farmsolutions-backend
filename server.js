@@ -1,35 +1,44 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const config = require('./config/config');
+
+// Initialize database connection
+require('./config/database');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = config.port;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: config.cors.origin,
+  credentials: config.cors.credentials,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// Serve uploaded files statically (if needed)
+app.use('/uploads', express.static('uploads'));
+
+// Import routes
+const apiRoutes = require('./routes/index');
+
+// Root route
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Farmer\'s Solution API Server',
+    message: 'Farmers Solutions API Server',
     version: '1.0.0',
-    status: 'running'
+    status: 'running',
+    environment: config.nodeEnv,
+    apiUrl: `${req.protocol}://${req.get('host')}${config.apiPrefix}`,
   });
 });
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    message: 'Server is healthy',
-    timestamp: new Date().toISOString()
-  });
-});
+// API Routes
+app.use(config.apiPrefix, apiRoutes);
 
 // API Routes (to be expanded)
-app.get('/api/products', (req, res) => {
+app.get(`${config.apiPrefix}/products`, (req, res) => {
   res.json({ 
     message: 'Products endpoint - coming soon',
     products: []
