@@ -1,8 +1,6 @@
--- ==============================
--- HOME PAGE CONTENT
--- ==============================
+CREATE SCHEMA IF NOT EXISTS farmsolutionss_schema AUTHORIZATION farmsolutionss_user;
 
-CREATE TABLE IF NOT EXISTS home_content (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.home_content (
   id SERIAL PRIMARY KEY,
   section VARCHAR(100) UNIQUE NOT NULL,
   title TEXT,
@@ -17,7 +15,7 @@ CREATE TABLE IF NOT EXISTS home_content (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS hero_banners (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.hero_banners (
   id SERIAL PRIMARY KEY,
   image_url TEXT NOT NULL,
   order_index INTEGER DEFAULT 0,
@@ -25,7 +23,7 @@ CREATE TABLE IF NOT EXISTS hero_banners (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS hero_stats (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.hero_stats (
   id SERIAL PRIMARY KEY,
   number VARCHAR(50) NOT NULL,
   label VARCHAR(255) NOT NULL,
@@ -34,7 +32,7 @@ CREATE TABLE IF NOT EXISTS hero_stats (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS problem_stats (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.problem_stats (
   id SERIAL PRIMARY KEY,
   number VARCHAR(50) NOT NULL,
   label TEXT NOT NULL,
@@ -44,7 +42,7 @@ CREATE TABLE IF NOT EXISTS problem_stats (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS solution_cards (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.solution_cards (
   id SERIAL PRIMARY KEY,
   icon VARCHAR(50),
   title VARCHAR(255) NOT NULL,
@@ -55,7 +53,7 @@ CREATE TABLE IF NOT EXISTS solution_cards (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS impact_stats (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.impact_stats (
   id SERIAL PRIMARY KEY,
   number VARCHAR(50) NOT NULL,
   label VARCHAR(255) NOT NULL,
@@ -65,11 +63,7 @@ CREATE TABLE IF NOT EXISTS impact_stats (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- ABOUT PAGE
--- ==============================
-
-CREATE TABLE IF NOT EXISTS about_content (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.about_content (
   id SERIAL PRIMARY KEY,
   section VARCHAR(100) UNIQUE NOT NULL,
   title TEXT,
@@ -80,7 +74,7 @@ CREATE TABLE IF NOT EXISTS about_content (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS team_members (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.team_members (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   position VARCHAR(255),
@@ -92,11 +86,7 @@ CREATE TABLE IF NOT EXISTS team_members (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- PRODUCTS
--- ==============================
-
-CREATE TABLE IF NOT EXISTS products (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.products (
   id SERIAL PRIMARY KEY,
   product_id VARCHAR(100) UNIQUE,
   name VARCHAR(255) NOT NULL,
@@ -119,11 +109,7 @@ CREATE TABLE IF NOT EXISTS products (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- HOW IT WORKS
--- ==============================
-
-CREATE TABLE IF NOT EXISTS how_it_works_steps (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.how_it_works_steps (
   id SERIAL PRIMARY KEY,
   step_number INTEGER NOT NULL,
   title VARCHAR(255) NOT NULL,
@@ -134,11 +120,7 @@ CREATE TABLE IF NOT EXISTS how_it_works_steps (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- IMPACT
--- ==============================
-
-CREATE TABLE IF NOT EXISTS testimonials (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.testimonials (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   location VARCHAR(255),
@@ -151,11 +133,7 @@ CREATE TABLE IF NOT EXISTS testimonials (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- KNOWLEDGE HUB
--- ==============================
-
-CREATE TABLE IF NOT EXISTS knowledge_resources (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.knowledge_resources (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   description TEXT,
@@ -167,11 +145,7 @@ CREATE TABLE IF NOT EXISTS knowledge_resources (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- PRICING
--- ==============================
-
-CREATE TABLE IF NOT EXISTS pricing_packages (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.pricing_packages (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   capacity VARCHAR(100),
@@ -182,7 +156,7 @@ CREATE TABLE IF NOT EXISTS pricing_packages (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS pricing_info_cards (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.pricing_info_cards (
   id SERIAL PRIMARY KEY,
   icon VARCHAR(50),
   title VARCHAR(255) NOT NULL,
@@ -192,11 +166,7 @@ CREATE TABLE IF NOT EXISTS pricing_info_cards (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- CONTACT
--- ==============================
-
-CREATE TABLE IF NOT EXISTS contact_info (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.contact_info (
   id SERIAL PRIMARY KEY,
   type VARCHAR(50) NOT NULL,
   label VARCHAR(255),
@@ -207,7 +177,7 @@ CREATE TABLE IF NOT EXISTS contact_info (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS business_hours (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.business_hours (
   id SERIAL PRIMARY KEY,
   day VARCHAR(50) NOT NULL,
   hours VARCHAR(100) NOT NULL,
@@ -216,11 +186,7 @@ CREATE TABLE IF NOT EXISTS business_hours (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ==============================
--- FOOTER & METADATA
--- ==============================
-
-CREATE TABLE IF NOT EXISTS footer_content (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.footer_content (
   id SERIAL PRIMARY KEY,
   section VARCHAR(100) UNIQUE NOT NULL,
   title VARCHAR(255),
@@ -230,7 +196,7 @@ CREATE TABLE IF NOT EXISTS footer_content (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS social_links (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.social_links (
   id SERIAL PRIMARY KEY,
   platform VARCHAR(50) NOT NULL,
   url VARCHAR(255) NOT NULL,
@@ -240,7 +206,7 @@ CREATE TABLE IF NOT EXISTS social_links (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS page_metadata (
+CREATE TABLE IF NOT EXISTS farmsolutionss_schema.page_metadata (
   id SERIAL PRIMARY KEY,
   page VARCHAR(100) NOT NULL,
   section VARCHAR(100) NOT NULL,
@@ -250,7 +216,7 @@ CREATE TABLE IF NOT EXISTS page_metadata (
   cta_text TEXT,
   cta_button_text VARCHAR(100),
   cta_button_link VARCHAR(255),
-  UNIQUE(page, section),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (page, section)
 );

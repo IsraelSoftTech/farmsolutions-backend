@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Pool } = require("pg");
 
 const pool = new Pool({
   host: process.env.DB_HOST,
@@ -6,7 +6,10 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? { rejectUnauthorized: false }
+      : false,
   max: 20, // Maximum number of clients in the pool
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
@@ -16,20 +19,24 @@ const pool = new Pool({
 async function testConnection() {
   try {
     const client = await pool.connect();
-    console.log('✅ Database connected successfully');
+    // Set schema for this client
+    await client.query("SET search_path TO farmsolutionss_schema");
+    console.log("✅ Database connected successfully");
     client.release();
   } catch (error) {
-    console.error('❌ Database connection failed:', error.message);
-    console.error('   This is normal if the database is not accessible from this machine.');
-    console.error('   The connection will be retried when queries are made.');
+    console.error("❌ Database connection failed:", error.message);
+    console.error(
+      "   This is normal if the database is not accessible from this machine."
+    );
+    console.error("   The connection will be retried when queries are made.");
   }
 }
 
 // Test connection on module load
 testConnection();
 
-pool.on('error', (err) => {
-  console.error('❌ Unexpected error on idle client', err);
+pool.on("error", (err) => {
+  console.error("❌ Unexpected error on idle client", err);
   // Don't exit on error - let the application handle it
 });
 
@@ -37,12 +44,16 @@ pool.on('error', (err) => {
 const query = async (text, params) => {
   const start = Date.now();
   try {
-    const res = await pool.query(text, params);
+    const client = await pool.connect();
+    // Ensure this client uses the correct schema
+    await client.query("SET search_path TO farmsolutionss_schema");
+    const res = await client.query(text, params);
+    client.release();
     const duration = Date.now() - start;
-    console.log('Executed query', { text, duration, rows: res.rowCount });
+    console.log("Executed query", { text, duration, rows: res.rowCount });
     return res;
   } catch (error) {
-    console.error('Database query error:', error);
+    console.error("Database query error:", error);
     throw error;
   }
 };
@@ -50,26 +61,31 @@ const query = async (text, params) => {
 // Helper function to get a client from the pool
 const getClient = async () => {
   const client = await pool.connect();
+  // Set schema for this client
+  await client.query("SET search_path TO farmsolutionss_schema");
+
   const query = client.query.bind(client);
   const release = client.release.bind(client);
-  
+
   // Set a timeout of 5 seconds, after which we will log this client's last query
   const timeout = setTimeout(() => {
-    console.error('A client has been checked out for more than 5 seconds!');
-    console.error(`The last executed query on this client was: ${client.lastQuery}`);
+    console.error("A client has been checked out for more than 5 seconds!");
+    console.error(
+      `The last executed query on this client was: ${client.lastQuery}`
+    );
   }, 5000);
-  
+
   // Monkey patch the query method to log the last query executed
   client.query = (...args) => {
     client.lastQuery = args;
     return query.apply(client, args);
   };
-  
+
   client.release = () => {
     clearTimeout(timeout);
     return release.apply(client);
   };
-  
+
   return client;
 };
 
